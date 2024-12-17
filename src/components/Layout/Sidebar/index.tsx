@@ -20,13 +20,13 @@ const Sidebar: React.FC = () => {
     { path: "/credit-cards", name: "Credit Cards", icon: CreditCard },
     { path: "/loans", name: "Loans", icon: BadgeDollarSign },
     { path: "/services", name: "Services", icon: Wrench },
-    { path: "/settings", name: "Setting", icon: Settings },
+    { path: "/settings", name: "Settings", icon: Settings },
   ];
 
   return (
     <aside className="w-64 bg-white h-screen fixed left-0 top-0 border-r border-gray-200">
       <div className="p-4">
-        <h1 className="text-xl font-bold text-primary flex items-center gap-2">
+        <h1 className="text-header font-extrabold text-primary flex items-center gap-2">
           <span className="text-2xl">✓</span> Soar Task
         </h1>
       </div>
@@ -37,16 +37,31 @@ const Sidebar: React.FC = () => {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `
-              flex items-center gap-3 px-4 py-3 text-gray-700 hover:bg-gray-50
+              flex items-center gap-3 px-4 py-3 transition-colors relative
+              before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[6px]
               ${
                 isActive
-                  ? "bg-primary/5 text-primary border-r-4 border-primary"
-                  : ""
+                  ? "bg-primary/5 before:bg-secondary"
+                  : "hover:bg-gray-50 before:bg-transparent"
               }
             `}
           >
-            <item.icon className="w-5 h-5" />
-            <span>{item.name}</span>
+            {({ isActive }) => (
+              <>
+                <item.icon
+                  className={`w-5 h-5 ${
+                    isActive ? "text-secondary" : "text-inactive"
+                  }`}
+                />
+                <span
+                  className={`text-sidebar ${
+                    isActive ? "text-secondary" : "text-inactive"
+                  }`}
+                >
+                  {item.name}
+                </span>
+              </>
+            )}
           </NavLink>
         ))}
       </nav>
