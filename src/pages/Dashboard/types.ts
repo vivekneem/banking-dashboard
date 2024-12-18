@@ -27,3 +27,12 @@ export interface ExpenseCategory {
   percentage: number;
   color: string;
 }
+
+export interface DashboardState {
+  cards: CardData[];
+  loading: {
+    cards: boolean;
+    // other loading states...
+  };
+  error: string | null;
+}

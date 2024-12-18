@@ -12,7 +12,7 @@ const Tabs: React.FC<TabsProps> = ({ tabs, defaultIndex = 0 }) => {
             key={tab.id}
             onClick={() => setActiveTab(index)}
             className={`
-              px-6 py-3 text-sm font-medium outline-none transition-colors
+              lg:px-8 px-4 py-3 text-sm font-medium outline-none transition-colors
               ${
                 activeTab === index
                   ? "text-primary border-b-2 border-primary"

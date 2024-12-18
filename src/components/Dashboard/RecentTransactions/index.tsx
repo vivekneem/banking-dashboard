@@ -1,46 +1,21 @@
 import React from "react";
 import Card from "../../../components/ui/Card";
-import type { Transaction } from "./types";
 import {
   RecentTransactionIcon1,
   RecentTransactionIcon2,
   RecentTransactionIcon3,
 } from "../../ui/icons";
 
-const RecentTransactions: React.FC = () => {
-  const transactions: Transaction[] = [
-    {
-      id: "1",
-      type: "withdrawal",
-      amount: 850,
-      description: "Deposit from my Card",
-      date: "28 January 2021",
-    },
-    {
-      id: "2",
-      type: "deposit",
-      amount: 2500,
-      description: "Deposit Paypal",
-      date: "25 January 2021",
-    },
-    {
-      id: "3",
-      type: "other",
-      amount: 5400,
-      description: "Jemi Wilson",
-      date: "21 January 2021",
-    },
-  ];
-
+const RecentTransactions: React.FC = ({ transactions }: any) => {
   return (
     <Card title="Recent Transaction" showSeeAll>
-      <div className="space-y-4">
+      <div className="space-y-4 bg-white rounded-lg p-2">
         {transactions.map((transaction) => (
           <div
             key={transaction.id}
             className="flex items-center justify-between rounded-lg"
           >
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 p-1">
               <div
                 className={`p-2 rounded-full ${
                   transaction.type === "deposit"

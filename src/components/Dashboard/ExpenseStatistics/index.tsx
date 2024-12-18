@@ -1,4 +1,3 @@
-// src/components/Dashboard/ExpenseStatistics/ExpenseStatistics.tsx
 import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
 import { Pie } from "react-chartjs-2";
@@ -6,19 +5,13 @@ import Card from "../../../components/ui/Card/";
 
 ChartJS.register(ArcElement, Tooltip);
 
-const ExpenseStatistics: React.FC = () => {
+const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
   const data = {
-    // Order matters! This determines the position of segments
-    labels: ["Entertainment", "Bill Expense", "Others", "Investment"],
+    labels: expenseStats?.labels,
     datasets: [
       {
-        data: [30, 15, 35, 20],
-        backgroundColor: [
-          "#343C6A", // Entertainment (top)
-          "#FC7900", // Bill Expense (top-right)
-          "#232323", // Others (bottom-right)
-          "#396AFF", // Investment (left)
-        ],
+        data: expenseStats?.data,
+        backgroundColor: ["#343C6A", "#FC7900", "#232323", "#396AFF"],
         borderWidth: 10,
         borderColor: "white",
         spacing: 3,
@@ -49,12 +42,11 @@ const ExpenseStatistics: React.FC = () => {
         const centerX = width / 2;
         const centerY = height / 2;
 
-        // Positions adjusted to match Figma layout
         const labelPositions = [
-          { angle: 240, offset: 0.6 }, // Entertainment (top)
-          { angle: 315, offset: 0.7 }, // Bill Expense (top-right)
-          { angle: 45, offset: 0.6 }, // Others (bottom-right)
-          { angle: 150, offset: 0.6 }, // Investment (left)
+          { angle: 240, offset: 0.6 },
+          { angle: 315, offset: 0.7 },
+          { angle: 45, offset: 0.6 },
+          { angle: 150, offset: 0.6 },
         ];
 
         data.datasets[0].data.forEach((value: number, i: number) => {
@@ -86,7 +78,7 @@ const ExpenseStatistics: React.FC = () => {
 
   return (
     <Card title="Expense Statistics" className="h-full">
-      <div className="h-[280px] flex items-center justify-center">
+      <div className="h-[280px] flex bg-white rounded-lg items-center justify-center">
         <div className="w-[240px] h-[240px]">
           <Pie data={data} options={options} plugins={plugins} />
         </div>

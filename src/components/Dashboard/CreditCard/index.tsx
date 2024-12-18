@@ -13,7 +13,7 @@ const CreditCard: React.FC<CreditCardProps> = ({
     <div
       className={`rounded-xl p-6 ${
         isLight
-          ? "bg-white border border-gray-200"
+          ? "border border-gray-200"
           : "bg-gradient-to-r from-[#5B5A6F] to-[#000000]"
       }`}
     >

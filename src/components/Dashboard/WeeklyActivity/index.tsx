@@ -20,7 +20,7 @@ ChartJS.register(
   Legend
 );
 
-const WeeklyActivity: React.FC = () => {
+const WeeklyActivity: React.FC = ({ weeklyActivity }: any) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -30,7 +30,7 @@ const WeeklyActivity: React.FC = () => {
           display: false,
         },
         ticks: {
-          color: "#718EBF", // Light blue color for x-axis labels
+          color: "#718EBF",
           font: {
             size: 12,
             family: "Inter",
@@ -42,7 +42,7 @@ const WeeklyActivity: React.FC = () => {
         max: 500,
         ticks: {
           stepSize: 100,
-          color: "#718EBF", // Light blue color for y-axis labels
+          color: "#718EBF",
           font: {
             size: 12,
             family: "Inter",
@@ -50,7 +50,7 @@ const WeeklyActivity: React.FC = () => {
           padding: 10,
         },
         grid: {
-          color: "#EAEEF4", // Light gray for grid lines
+          color: "#EAEEF4",
           drawBorder: false,
         },
         border: {
@@ -74,8 +74,8 @@ const WeeklyActivity: React.FC = () => {
         },
       },
     },
-    barPercentage: 0.5, // Make bars thinner
-    categoryPercentage: 0.8, // Space between bar groups
+    barPercentage: 0.5,
+    categoryPercentage: 0.8,
   };
 
   const data = {
@@ -83,16 +83,16 @@ const WeeklyActivity: React.FC = () => {
     datasets: [
       {
         label: "Withdraw",
-        data: [450, 350, 300, 450, 150, 380, 380],
+        data: weeklyActivity?.withdraw,
         backgroundColor: "#232323",
-        borderRadius: 50, // Rounded corners for bars
+        borderRadius: 50,
         borderSkipped: false,
       },
       {
         label: "Deposit",
-        data: [220, 120, 250, 350, 230, 230, 320],
-        backgroundColor: "#396AFF", // Updated to match Figma blue
-        borderRadius: 50, // Rounded corners for bars
+        data: weeklyActivity?.deposit,
+        backgroundColor: "#396AFF",
+        borderRadius: 50,
         borderSkipped: false,
       },
     ],
@@ -100,7 +100,7 @@ const WeeklyActivity: React.FC = () => {
 
   return (
     <Card title="Weekly Activity">
-      <div className="h-[280px] w-full p-4">
+      <div className="h-[280px] bg-white rounded-lg w-full p-4">
         <Bar options={options} data={data} />
       </div>
     </Card>
