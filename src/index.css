@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .dashboard-card {
+    @apply bg-white rounded-xl shadow-sm p-6;
+  }
+
+  .card-title {
+    @apply text-card text-primary font-semibold mb-4;
+  }
+
+  .section-header {
+    @apply flex justify-between items-center mb-6;
+  }
+
+  .see-all-link {
+    @apply text-link-color hover:text-primary transition-colors;
+  }
+}
