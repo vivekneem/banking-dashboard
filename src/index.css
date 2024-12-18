@@ -10,7 +10,7 @@
 
 @layer components {
   .dashboard-card {
-    @apply bg-white rounded-xl shadow-sm p-6;
+    @apply bg-white rounded-xl p-6;
   }
 
   .card-title {

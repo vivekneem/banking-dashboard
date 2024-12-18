@@ -9,7 +9,7 @@ const Card: React.FC<CardProps> = ({
   onSeeAllClick,
 }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-sm p-6 h-full ${className}`}>
+    <div className={`p-6 h-full ${className}`}>
       {(title || showSeeAll) && (
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-lg font-medium text-primary">{title}</h2>

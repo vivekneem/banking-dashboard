@@ -1,41 +1,17 @@
 import React, { useState } from "react";
 import { ChevronRight, Send } from "lucide-react";
 import Card from "../../../components/ui/Card";
-import type { TransferContact } from "./types";
 
-const QuickTransfer: React.FC = () => {
+const QuickTransfer: React.FC = ({ contacts }: any) => {
   const [amount, setAmount] = useState("525.50");
 
-  const contacts: TransferContact[] = [
-    {
-      id: "1",
-      name: "Livia Bator",
-      role: "CEO",
-      avatar: "/api/placeholder/48/48",
-    },
-    {
-      id: "2",
-      name: "Randy Press",
-      role: "Director",
-      avatar: "/api/placeholder/48/48",
-    },
-    {
-      id: "3",
-      name: "Workman",
-      role: "Designer",
-      avatar: "/api/placeholder/48/48",
-    },
-  ];
-
   const handleTransfer = () => {
-    // Handle transfer logic
     console.log("Transfer:", { amount });
   };
 
   return (
     <Card title="Quick Transfer">
-      <div className="space-y-6">
-        {/* Contact List */}
+      <div className="space-y-6 bg-white rounded-lg p-4">
         <div className="flex items-center gap-4">
           {contacts.map((contact) => (
             <div key={contact.id} className="text-center">
@@ -55,20 +31,20 @@ const QuickTransfer: React.FC = () => {
           </button>
         </div>
 
-        {/* Transfer Input */}
-        <div className="flex gap-4">
+        <div className="flex">
+          <span className="mt-2 text-tab-inactive mr-4">Write Amount</span>
           <div className="flex-1">
             <input
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               placeholder="Write Amount"
-              className="w-full px-4 py-2.5 bg-dashboard-bg rounded-lg text-primary placeholder:text-gray-400 focus:outline-none"
+              className="w-full px-4 py-2.5 bg-dashboard-bg text-primary placeholder:text-gray-400 focus:outline-none"
             />
           </div>
           <button
             onClick={handleTransfer}
-            className="flex items-center gap-2 bg-secondary text-white px-6 py-2.5 rounded-lg hover:bg-secondary/90 transition-colors"
+            className="flex items-center gap-2 bg-secondary text-white lg:px-6 px-4 py-2.5 rounded-full hover:bg-secondary/90 transition-colors"
           >
             <span>Send</span>
             <Send className="w-4 h-4" />
