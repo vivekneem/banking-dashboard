@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import Card from "../../../components/ui/Card/";
+import { WeeklyActivityProps } from "./types";
 
 ChartJS.register(
   CategoryScale,
@@ -20,7 +21,7 @@ ChartJS.register(
   Legend
 );
 
-const WeeklyActivity: React.FC = ({ weeklyActivity }: any) => {
+const WeeklyActivity: React.FC<WeeklyActivityProps> = ({ weeklyActivity }) => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
@@ -100,7 +101,11 @@ const WeeklyActivity: React.FC = ({ weeklyActivity }: any) => {
 
   return (
     <Card title="Weekly Activity">
-      <div className="h-[280px] bg-white rounded-lg w-full p-4">
+      <div 
+        className="h-[280px] bg-white rounded-lg w-full p-4"
+        role="region"
+        aria-label="Weekly activity chart"
+      >
         <Bar options={options} data={data} />
       </div>
     </Card>

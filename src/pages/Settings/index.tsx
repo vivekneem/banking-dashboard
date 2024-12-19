@@ -41,7 +41,7 @@ const Settings: React.FC = () => {
     const fetchUserProfileData = async () => {
       try {
         const result = await dispatch(fetchUserProfile()).unwrap();
-        setFormData(result);
+        setFormData(result as FormDetails);
       } catch (err) {
         console.error("Failed to fetch UserProfile data:", err);
       }
@@ -55,7 +55,9 @@ const Settings: React.FC = () => {
     if (!formData) return;
 
     try {
-      await dispatch(updateUserProfile(formData)).unwrap();
+      await dispatch(
+        updateUserProfile(formData as unknown as Record<string, unknown>)
+      ).unwrap();
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
