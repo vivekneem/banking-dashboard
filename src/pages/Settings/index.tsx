@@ -169,7 +169,6 @@ const Settings: React.FC = () => {
 
   return (
     <div className="max-w-4xl">
-      <h1 className="text-2xl font-semibold text-gray-800 mb-6">Settings</h1>
       <div className="bg-white rounded-lg shadow-sm">
         <Suspense fallback={<LoadingSpinner />}>
           <Tabs tabs={tabs} />
