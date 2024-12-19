@@ -48,10 +48,12 @@ export const mockData = {
     labels: ["Entertainment", "Bill Expense", "Others", "Investment"],
     data: [30, 15, 35, 20],
   },
-  weeklyActivity: {
-    withdraw: [450, 350, 300, 450, 150, 380, 380],
-    deposit: [220, 120, 250, 350, 230, 230, 320],
-  },
+  weeklyActivity: [
+    {
+      withdraw: [450, 350, 300, 450, 150, 380, 380],
+      deposit: [220, 120, 250, 350, 230, 230, 320],
+    },
+  ],
   balanceHistory: [150, 300, 450, 750, 250, 550, 600],
   quickTransferContacts: [
     {

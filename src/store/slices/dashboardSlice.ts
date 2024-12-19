@@ -1,59 +1,85 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { mockApi } from "../../services/mockApi";
+import { CardData } from "../../components/Dashboard/CreditCard/types";
+import { Transaction } from "../../components/Dashboard/RecentTransactions/types";
+import { ExpenseStats } from "../../components/Dashboard/ExpenseStatistics/types";
+import { WeeklyActivityData } from "../../components/Dashboard/WeeklyActivity/types";
+import { TransferContact } from "../../components/Dashboard/QuickTransfer/types";
 
-export const fetchCards = createAsyncThunk("dashboard/fetchCards", async () => {
-  const response = await mockApi.get("/cards");
-  return response.data;
-});
+interface DashboardState {
+  cards: CardData[];
+  transactions: Transaction[];
+  expenseStats: ExpenseStats | null;
+  weeklyActivity: WeeklyActivityData | null;
+  quickTransfer: TransferContact[];
+  balanceHistory: number[] | null;
+  loading: {
+    cards: boolean;
+    transactions: boolean;
+    expenseStats: boolean;
+    weeklyActivity: boolean;
+    quickTransfer: boolean;
+    balanceHistory: boolean;
+  };
+  error: string | null;
+}
 
-export const fetchTransactions = createAsyncThunk(
+export const fetchCards = createAsyncThunk<CardData[]>(
+  "dashboard/fetchCards",
+  async () => {
+    const response = await mockApi.get("/cards");
+    return response.data as CardData[];
+  }
+);
+
+export const fetchTransactions = createAsyncThunk<Transaction[]>(
   "dashboard/fetchTransactions",
   async () => {
     const response = await mockApi.get("/transactions");
-    return response.data;
+    return response.data as Transaction[];
   }
 );
 
-export const fetchExpenseStats = createAsyncThunk(
+export const fetchExpenseStats = createAsyncThunk<ExpenseStats>(
   "dashboard/fetchExpenseStats",
   async () => {
     const response = await mockApi.get("/expense-statistics");
-    return response.data;
+    return response.data as ExpenseStats;
   }
 );
 
-export const fetchWeeklyActivity = createAsyncThunk(
+export const fetchWeeklyActivity = createAsyncThunk<WeeklyActivityData>(
   "dashboard/fetchWeeklyActivity",
   async () => {
     const response = await mockApi.get("/weekly-activity");
-    return response.data;
+    return response.data as WeeklyActivityData;
   }
 );
 
-export const fetchQuickTransfer = createAsyncThunk(
+export const fetchQuickTransfer = createAsyncThunk<TransferContact[]>(
   "dashboard/fetchQuickTransfer",
   async () => {
     const response = await mockApi.get("/quick-transfer/contacts");
-    return response.data;
+    return response.data as TransferContact[];
   }
 );
 
-export const fetchBalanceHistory = createAsyncThunk(
+export const fetchBalanceHistory = createAsyncThunk<number[]>(
   "dashboard/fetchBalanceHistory",
   async () => {
     const response = await mockApi.get("/balance-history");
-    return response.data;
+    return response.data as number[];
   }
 );
 
 const dashboardSlice = createSlice({
   name: "dashboard",
   initialState: {
-    cards: [],
-    transactions: [],
+    cards: [] as CardData[],
+    transactions: [] as Transaction[],
     expenseStats: null,
     weeklyActivity: null,
-    quickTransfer: [],
+    quickTransfer: [] as TransferContact[],
     balanceHistory: null,
     loading: {
       cards: false,
@@ -64,7 +90,7 @@ const dashboardSlice = createSlice({
       balanceHistory: false,
     },
     error: null,
-  },
+  } as DashboardState,
   reducers: {},
   extraReducers: (builder) => {
     // Cards
@@ -78,7 +104,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchCards.rejected, (state, action) => {
         state.loading.cards = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       })
       .addCase(fetchTransactions.pending, (state) => {
         state.loading.transactions = true;
@@ -89,7 +115,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchTransactions.rejected, (state, action) => {
         state.loading.transactions = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       })
       .addCase(fetchExpenseStats.pending, (state) => {
         state.loading.expenseStats = true;
@@ -100,7 +126,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchExpenseStats.rejected, (state, action) => {
         state.loading.expenseStats = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       })
       .addCase(fetchWeeklyActivity.pending, (state) => {
         state.loading.weeklyActivity = true;
@@ -111,7 +137,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchWeeklyActivity.rejected, (state, action) => {
         state.loading.weeklyActivity = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       })
       .addCase(fetchQuickTransfer.pending, (state) => {
         state.loading.quickTransfer = true;
@@ -122,7 +148,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchQuickTransfer.rejected, (state, action) => {
         state.loading.quickTransfer = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       })
       .addCase(fetchBalanceHistory.pending, (state) => {
         state.loading.balanceHistory = true;
@@ -133,7 +159,7 @@ const dashboardSlice = createSlice({
       })
       .addCase(fetchBalanceHistory.rejected, (state, action) => {
         state.loading.balanceHistory = false;
-        state.error = action.error.message;
+        state.error = action.error.message || null;
       });
   },
 });

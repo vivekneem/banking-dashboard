@@ -1,3 +1,7 @@
+import { ExpenseStats } from "../../components/Dashboard/ExpenseStatistics/types";
+import { TransferContact } from "../../components/Dashboard/QuickTransfer/types";
+import { WeeklyActivityData } from "../../components/Dashboard/WeeklyActivity/types";
+
 export interface CardData {
   id: string;
   cardNumber: string;
@@ -30,9 +34,18 @@ export interface ExpenseCategory {
 
 export interface DashboardState {
   cards: CardData[];
+  transactions: Transaction[];
+  weeklyActivity: WeeklyActivityData[];
+  expenseStats: ExpenseStats;
+  quickTransfer: TransferContact[];
+  balanceHistory: number[];
   loading: {
     cards: boolean;
-    // other loading states...
+    transactions: boolean;
+    expenseStats: boolean;
+    weeklyActivity: boolean;
+    quickTransfer: boolean;
+    balanceHistory: boolean;
   };
   error: string | null;
 }

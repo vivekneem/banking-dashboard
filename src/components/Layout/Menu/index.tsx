@@ -28,40 +28,40 @@ interface MenuProps {
 
 const Menu: React.FC<MenuProps> = ({ onItemClick }) => {
   return (
-    <nav className="mt-8">
-      {menuItems.map((item) => (
-        <NavLink
-          key={item.path}
-          to={item.path}
-          onClick={onItemClick}
-          className={({ isActive }) => `
-            flex items-center gap-3 px-4 py-3 transition-colors relative
-            before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[6px]
-            ${
-              isActive
-                ? "bg-primary/5 before:bg-secondary"
-                : "hover:bg-gray-50 before:bg-transparent"
-            }
-          `}
-        >
-          {({ isActive }) => (
-            <>
-              <item.icon
-                className={`w-5 h-5 ${
-                  isActive ? "text-secondary" : "text-inactive"
-                }`}
-              />
-              <span
-                className={`text-sidebar ${
-                  isActive ? "text-secondary" : "text-inactive"
-                }`}
-              >
-                {item.name}
-              </span>
-            </>
-          )}
-        </NavLink>
-      ))}
+    <nav className="mt-8" role="navigation" aria-label="Main navigation">
+      <ul>
+        {menuItems.map((item) => (
+          <li key={item.path}>
+            <NavLink
+              to={item.path}
+              onClick={onItemClick}
+              className={({ isActive }) => `
+                flex items-center gap-3 px-4 py-3 transition-colors relative
+                focus:outline-none focus:ring-2 focus:ring-primary
+                before:absolute before:left-0 before:top-0 before:bottom-0 before:w-[6px]
+                ${isActive
+                  ? "bg-primary/5 before:bg-secondary"
+                  : "hover:bg-gray-50 before:bg-transparent"
+                }
+              `}
+            >
+              {({ isActive }) => (
+                <>
+                  <item.icon
+                    className={`w-5 h-5 ${isActive ? "text-secondary" : "text-inactive"}`}
+                    aria-hidden="true"
+                  />
+                  <span
+                    className={`text-sidebar ${isActive ? "text-secondary" : "text-inactive"}`}
+                  >
+                    {item.name}
+                  </span>
+                </>
+              )}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
     </nav>
   );
 };

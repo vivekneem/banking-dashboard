@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense, lazy } from "react";
+import React, { useEffect, Suspense, lazy, useCallback } from "react";
 import { useAppSelector } from "../../hooks/useAppSelector";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import {
@@ -9,9 +9,9 @@ import {
   fetchQuickTransfer,
   fetchBalanceHistory,
 } from "../../store/slices/dashboardSlice";
-import ErrorMessage from "../../components/ui/ErrorMessage";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import Card from "../../components/ui/Card";
+import ErrorMessage from "../../components/ui/ErrorMessage";
 
 const CreditCard = lazy(() => import("../../components/Dashboard/CreditCard"));
 const RecentTransactions = lazy(
@@ -40,33 +40,33 @@ const Dashboard: React.FC = () => {
   const dispatch = useAppDispatch();
   const dashboardData = useAppSelector((state) => state.dashboard);
 
-  useEffect(() => {
-    const fetchDashboardData = async () => {
-      try {
-        await Promise.all([
-          dispatch(fetchCards()),
-          dispatch(fetchTransactions()),
-        ]);
-
-        await Promise.all([
-          dispatch(fetchExpenseStats()),
-          dispatch(fetchWeeklyActivity()),
-          dispatch(fetchQuickTransfer()),
-          dispatch(fetchBalanceHistory()),
-        ]);
-      } catch (err) {
-        console.error("Failed to fetch dashboard data:", err);
-      }
-    };
-
-    fetchDashboardData();
+  const fetchDashboardData = useCallback(async () => {
+    try {
+      await Promise.all([
+        dispatch(fetchCards()),
+        dispatch(fetchTransactions()),
+        dispatch(fetchExpenseStats()),
+        dispatch(fetchWeeklyActivity()),
+        dispatch(fetchQuickTransfer()),
+        dispatch(fetchBalanceHistory()),
+      ]);
+    } catch (err) {
+      console.error("Failed to fetch dashboard data:", err);
+    }
   }, [dispatch]);
 
-  const isLoading = Object.values(dashboardData.loading).some(
-    (load) => load === true
-  );
+  useEffect(() => {
+    fetchDashboardData();
+  }, [dispatch, fetchDashboardData]);
 
-  if (isLoading) {
+  if (
+    dashboardData.loading.cards ||
+    dashboardData.loading.transactions ||
+    dashboardData.loading.expenseStats ||
+    dashboardData.loading.weeklyActivity ||
+    dashboardData.loading.quickTransfer ||
+    dashboardData.loading.balanceHistory
+  ) {
     return (
       <div className="w-full h-full flex items-center justify-center">
         <LoadingSpinner />
@@ -79,14 +79,7 @@ const Dashboard: React.FC = () => {
       <div className="w-full">
         <ErrorMessage message={dashboardData.error || "An error occurred"} />
         <button
-          onClick={() => {
-            dispatch(fetchCards());
-            dispatch(fetchTransactions());
-            dispatch(fetchExpenseStats());
-            dispatch(fetchWeeklyActivity());
-            dispatch(fetchQuickTransfer());
-            dispatch(fetchBalanceHistory());
-          }}
+          onClick={() => dispatch(fetchDashboardData)}
           className="mt-4 px-4 py-2 bg-primary text-white rounded-lg"
         >
           Retry
@@ -95,9 +88,16 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  if (!dashboardData.cards.length) {
+  if (
+    !dashboardData.cards?.length ||
+    !dashboardData.transactions ||
+    !dashboardData.expenseStats ||
+    !dashboardData.weeklyActivity ||
+    !dashboardData.quickTransfer ||
+    !dashboardData.balanceHistory
+  ) {
     return (
-      <div className="text-center py-8 text-gray-500">No cards available</div>
+      <div className="text-center py-8 text-gray-500">No data available</div>
     );
   }
 
@@ -119,7 +119,9 @@ const Dashboard: React.FC = () => {
 
           <div className="w-full lg:w-730 h-mobile-chart lg:h-367 lg:mt-16">
             <Suspense fallback={<SectionLoader />}>
-              <WeeklyActivity weeklyActivity={dashboardData.weeklyActivity} />
+              <WeeklyActivity
+                weeklyActivity={dashboardData.weeklyActivity[0]}
+              />
             </Suspense>
           </div>
         </div>
