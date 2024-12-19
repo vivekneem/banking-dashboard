@@ -14,14 +14,16 @@ const Header: React.FC<HeaderProps> = ({ showMobileMenu, onMenuClick }) => {
   const profileImage = profile?.profileImage || DefaultProfilePic;
 
   return (
-    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6">
+    <header className="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6" role="banner">
       <div className="flex items-center">
         {showMobileMenu && (
           <button
             className="mr-4 p-2 hover:bg-gray-100 rounded-lg"
             onClick={onMenuClick}
+            aria-label="Toggle menu"
+            aria-expanded={showMobileMenu}
           >
-            <Menu className="w-6 h-6 text-gray-600" />
+            <Menu className="w-6 h-6 text-gray-600" aria-hidden="true" />
           </button>
         )}
         <h1 className="text-xl lg:text-header text-primary">Overview</h1>
@@ -29,38 +31,41 @@ const Header: React.FC<HeaderProps> = ({ showMobileMenu, onMenuClick }) => {
 
       <div className="flex items-center gap-4 lg:gap-8">
         <div className="hidden lg:block relative max-w-[400px] w-full">
-          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+          <label htmlFor="search" className="sr-only">Search</label>
+          <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" aria-hidden="true" />
           <input
-            type="text"
+            id="search"
+            type="search"
             placeholder="Search for something"
-            className="w-full pl-10 pr-4 py-2 bg-dashboard-bg rounded-full focus:outline-none"
+            className="w-full pl-10 pr-4 py-2 bg-dashboard-bg rounded-full focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
 
         <button
           type="button"
-          className="p-2 bg-dashboard-bg hover:bg-gray-100 rounded-full transition-colors"
+          aria-label="Settings"
+          className="p-2 bg-dashboard-bg hover:bg-gray-100 rounded-full transition-colors focus:ring-2 focus:ring-primary"
         >
-          <Settings className="w-5 h-5 text-gray-600" />
+          <Settings className="w-5 h-5 text-gray-600" aria-hidden="true" />
         </button>
 
         <button
           type="button"
-          className="p-2 bg-dashboard-bg hover:bg-gray-100 rounded-full relative transition-colors"
+          aria-label="Notifications"
+          className="p-2 bg-dashboard-bg hover:bg-gray-100 rounded-full relative transition-colors focus:ring-2 focus:ring-primary"
         >
-          <Bell className="w-5 h-5 text-gray-600" />
-          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+          <Bell className="w-5 h-5 text-gray-600" aria-hidden="true" />
+          <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" aria-label="New notifications"></span>
         </button>
 
-        <div className="w-5 h-5 lg:w-10 lg:h-10 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
-          <img
-            src={profileImage}
-            alt="Profile"
-            className="w-full h-full object-cover rounded-full flex-shrink-0"
-            width={23}
-            height={40}
-          />
-        </div>
+        <img
+          src={profileImage}
+          alt="Profile"
+          className="w-5 h-5 lg:w-10 lg:h-10 rounded-full object-cover flex-shrink-0"
+          width={40}
+          height={40}
+          loading="lazy"
+        />
       </div>
     </header>
   );

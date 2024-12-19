@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,9 +9,12 @@ import {
   Tooltip,
   Filler,
   Legend,
+  ChartOptions,
+  ChartData,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import Card from "../../../components/ui/Card";
+import { BalanceHistoryProps } from "./types";
 
 ChartJS.register(
   CategoryScale,
@@ -24,8 +27,10 @@ ChartJS.register(
   Legend
 );
 
-const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
-  const options = {
+const BalanceHistory: React.FC<BalanceHistoryProps> = ({
+  balanceHistory,
+}) => {
+  const options: ChartOptions<'line'> = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
     plugins: {
@@ -41,7 +46,6 @@ const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
         grid: {
           color: "#EAEEF4",
           lineWidth: 0.5,
-          drawBorder: false,
         },
         ticks: {
           color: "#718EBF",
@@ -60,7 +64,7 @@ const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
         max: 800,
         ticks: {
           stepSize: 200,
-          callback: (value: number) => `${value} —`,
+          callback: (tickValue: string | number) => `${tickValue} —`,
           color: "#718EBF",
           font: {
             size: 12,
@@ -71,7 +75,6 @@ const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
         grid: {
           color: "#EAEEF4",
           lineWidth: 0.5,
-          drawBorder: false,
         },
         border: {
           display: false,
@@ -88,16 +91,20 @@ const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
         radius: 0,
       },
     },
-  };
+  }), []);
 
-  const data = {
+  const data: ChartData<'line'> = useMemo(() => ({
     labels: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan"],
     datasets: [
       {
         fill: true,
         data: balanceHistory,
         borderColor: "#1814F3",
-        backgroundColor: (context: any) => {
+        backgroundColor: (context: {
+          chart: {
+            ctx: CanvasRenderingContext2D;
+          };
+        }) => {
           const ctx = context.chart.ctx;
           const gradient = ctx.createLinearGradient(0, 0, 0, 300);
           gradient.addColorStop(0, "rgba(45, 96, 255, 0.25)");
@@ -108,15 +115,19 @@ const BalanceHistory: React.FC = ({ balanceHistory }: any) => {
         borderJoinStyle: "round",
       },
     ],
-  };
+  }), [balanceHistory]);
 
   return (
     <Card title="Balance History" className="w-full lg:w-[635px] h-[323px]">
-      <div className="h-[276px] mt-[47px] rounded-tl-[25px] bg-white rounded-lg">
+      <div 
+        className="h-[276px] mt-[47px] rounded-tl-[25px] bg-white rounded-lg"
+        role="region"
+        aria-label="Balance history chart"
+      >
         <Line options={options} data={data} />
       </div>
     </Card>
   );
 };
 
-export default BalanceHistory;
+export default React.memo(BalanceHistory);
