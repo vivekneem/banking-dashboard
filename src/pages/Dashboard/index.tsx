@@ -102,7 +102,7 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="p-4 lg:p-6">
+    <div className="lg:p-6">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-[30px]">
         <div className="w-full lg:col-span-8">
           <div className="w-full lg:w-730 h-auto lg:h-282 mb-4 lg:mb-[30px]">
