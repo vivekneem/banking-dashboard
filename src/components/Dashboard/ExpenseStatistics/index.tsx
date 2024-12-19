@@ -1,13 +1,18 @@
 import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip } from "chart.js";
+import { Chart as ChartJS, ArcElement, Tooltip, Point, BubbleDataPoint } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import Card from "../../../components/ui/Card/";
 
 ChartJS.register(ArcElement, Tooltip);
 
-const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
+interface ExpenseStats {
+  labels: string[];
+  data: number[];
+}
+
+const ExpenseStatistics: React.FC<{ expenseStats: ExpenseStats }> = ({ expenseStats }) => {
   const data = {
-    labels: expenseStats?.labels,
+    labels: expenseStats.labels,
     datasets: [
       {
         data: expenseStats?.data,
@@ -36,7 +41,7 @@ const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
   const plugins = [
     {
       id: "pieLabels",
-      afterDraw(chart: any) {
+      afterDraw(chart: ChartJS) {
         const { ctx, width, height, data } = chart;
         ctx.save();
         const centerX = width / 2;
@@ -49,7 +54,9 @@ const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
           { angle: 150, offset: 0.6 },
         ];
 
-        data.datasets[0].data.forEach((value: number, i: number) => {
+        data.datasets[0].data.forEach((value: number | null | [number, number] | Point | BubbleDataPoint, i: number) => {
+          if (typeof value !== 'number') return;
+          if (!data.labels) return;
           const pos = labelPositions[i];
           const angle = (Math.PI / 180) * pos.angle;
           const radius = (Math.min(width, height) / 2) * pos.offset;
@@ -68,7 +75,7 @@ const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
           ctx.font = "16px Inter";
           ctx.fillStyle = "white";
           ctx.textBaseline = "middle";
-          ctx.fillText(data.labels[i], x, y + 12);
+          ctx.fillText(String(data.labels[i]), x, y + 12);
         });
 
         ctx.restore();
@@ -78,7 +85,11 @@ const ExpenseStatistics: React.FC = ({ expenseStats }: any) => {
 
   return (
     <Card title="Expense Statistics" className="h-full">
-      <div className="h-[280px] flex bg-white rounded-lg items-center justify-center">
+      <div 
+        className="h-[280px] flex bg-white rounded-lg items-center justify-center"
+        role="region"
+        aria-label="Expense statistics chart"
+      >
         <div className="w-[240px] h-[240px]">
           <Pie data={data} options={options} plugins={plugins} />
         </div>

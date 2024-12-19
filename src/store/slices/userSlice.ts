@@ -41,9 +41,9 @@ export const fetchUserProfile = createAsyncThunk(
 
 export const updateUserProfile = createAsyncThunk(
   "user/updateProfile",
-  async (data: any) => {
+  async (data: Record<string, unknown>) => {
     const response = await mockApi.put("/user/profile", data);
-    return response.data;
+    return response.data as UserProfile;
   }
 );
 
@@ -80,7 +80,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchUserProfile.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload as UserProfile;
         state.loading = false;
       })
       .addCase(fetchUserProfile.rejected, (state, action) => {
@@ -92,7 +92,7 @@ const userSlice = createSlice({
         state.error = null;
       })
       .addCase(updateUserProfile.fulfilled, (state, action) => {
-        state.profile = action.payload;
+        state.profile = action.payload as UserProfile;
         state.loading = false;
       })
       .addCase(updateUserProfile.rejected, (state, action) => {
@@ -105,7 +105,7 @@ const userSlice = createSlice({
       })
       .addCase(updateProfileImage.fulfilled, (state, action) => {
         if (state.profile) {
-          state.profile.profileImage = action.payload.profileImage;
+          state.profile.profileImage = action.payload.profileImage as string;
         }
         state.imageUploading = false;
       })

@@ -16,6 +16,8 @@ const CreditCard: React.FC<CreditCardProps> = ({
           ? "border border-gray-200"
           : "bg-gradient-to-r from-[#5B5A6F] to-[#000000]"
       }`}
+      role="region"
+      aria-label="Credit card details"
     >
       <div className="flex justify-between items-start mb-4">
         <div>

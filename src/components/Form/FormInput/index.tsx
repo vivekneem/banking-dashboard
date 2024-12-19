@@ -64,6 +64,8 @@ const FormInput: React.FC<{
 }> = ({ field, value, onChange }) => {
   const [touched, setTouched] = useState(false);
   const [errors, setErrors] = useState<string[]>([]);
+  const inputId = React.useId();
+  const errorsId = React.useId();
 
   const validateField = (value: string) => {
     const rules = getValidationRules(field.type, field);
@@ -89,11 +91,12 @@ const FormInput: React.FC<{
 
   return (
     <div className="w-full">
-      <label className="block text-sm text-primary mb-2">
+      <label htmlFor={inputId} className="block text-sm text-primary mb-2">
         {field.label}
-        {field.required && <span className="text-red-500 ml-1">*</span>}
+        {field.required && <span className="text-red-500 ml-1" aria-hidden="true">*</span>}
       </label>
       <input
+        id={inputId}
         type={field.type}
         value={value}
         onChange={handleChange}
@@ -107,9 +110,11 @@ const FormInput: React.FC<{
         placeholder={field.placeholder}
         minLength={field.type === "password" ? 8 : undefined}
         pattern={field.pattern}
+        aria-invalid={touched && errors.length > 0}
+        aria-describedby={errors.length > 0 ? errorsId : undefined}
       />
       {touched && errors.length > 0 && (
-        <div className="mt-1 space-y-1">
+        <div id={errorsId} className="mt-1 space-y-1" role="alert">
           {errors.map((error, index) => (
             <p key={index} className="text-sm text-red-500">
               {error}
