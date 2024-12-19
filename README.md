@@ -1,50 +1,126 @@
-# React + TypeScript + Vite
+# Banking Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive banking dashboard built with React, TypeScript, and Vite. Features include expense tracking, transaction management, and financial analytics.
 
-Currently, two official plugins are available:
+![Dashboard Preview](./public/dashboard-preview.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
 
-## Expanding the ESLint configuration
+- 📊 Real-time financial analytics and charts
+- 💳 Credit card management
+- 📱 Responsive design (mobile-first approach)
+- 🔄 Transaction history and tracking
+- 📈 Expense statistics
+- 👤 User profile management
+- 🌙 Accessibility optimized
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## 🛠️ Tech Stack
 
-- Configure the top-level `parserOptions` property like this:
+- React 18.3
+- TypeScript
+- Vite
+- Redux Toolkit
+- Chart.js
+- TailwindCSS
+- React Router DOM
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## 📋 Prerequisites
+
+- Node.js (v18 or higher)
+- npm or yarn
+- Git
+
+## 🚀 Quick Start
+
+1. **Clone the repository**
+```bash
+git clone https://github.com/vivekneem/banking-dashboard.git
+cd banking-dashboard
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+2. **Install dependencies**
+```bash
+npm install
+# or
+yarn install
 ```
+
+3. **Start development server**
+```bash
+npm run dev
+# or
+yarn dev
+```
+
+Visit `http://localhost:5173` to view the application.
+
+## 🏗️ Build for Production
+
+```bash
+npm run build
+# or
+yarn build
+```
+
+The built files will be in the `dist` directory.
+
+## 📝 Development Assumptions
+
+1. **Mock API Integration**
+   - Mock API endpoints available for all data operations
+   - Proper error handling and status codes
+
+2. **Browser Support**
+   - Modern browsers (last 2 versions)
+   - CSS Grid and Flexbox support
+   - ES6+ JavaScript features
+
+3. **Data Management**
+   - Redux for global state management
+   - Local storage for user preferences
+   - Real-time data updates
+
+## 📁 Project Structure
+
+```
+banking-dashboard/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── pages/         # Page components
+│   ├── store/         # Redux store configuration
+│   ├── hooks/         # Custom React hooks
+│   ├── types/         # TypeScript type definitions
+│   ├── assets/        # Static assets
+│   └── App.tsx        # Root component
+├── public/            # Public assets
+└── vite.config.ts     # Vite configuration
+```
+
+## 📱 Responsive Design Breakpoints
+
+- Mobile: < 640px
+- Tablet: 640px - 1024px
+- Desktop: > 1024px
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👥 Authors
+
+- Vivek Desai - Initial work - [vivekneem](https://github.com/vivekneem)
+
+## 🙏 Acknowledgments
+
+- [React Documentation](https://react.dev)
+- [Vite](https://vitejs.dev)
+- [TailwindCSS](https://tailwindcss.com)
+- [Chart.js](https://www.chartjs.org)

@@ -1,6 +1,7 @@
 import React from "react";
 import { X } from "lucide-react";
 import Menu from "../Menu";
+import { Logo } from "../../ui/icons/Logo";
 
 interface MobileSidebarProps {
   isOpen: boolean;
@@ -26,7 +27,10 @@ const MobileSidebar: React.FC<MobileSidebarProps> = ({ isOpen, onClose }) => {
       >
         <div className="p-4 flex justify-between items-center">
           <h1 className="text-xl font-extrabold text-primary flex items-center gap-2">
-            <span className="text-2xl">✓</span> Soar Task
+            <span className="text-xl">
+              <Logo size={35} viewBoxWidth={35} viewBoxHeight={35} />
+            </span>{" "}
+            Soar Task
           </h1>
           <button
             onClick={onClose}
